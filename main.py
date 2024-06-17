@@ -3,6 +3,7 @@ import time
 import asyncio
 import websockets
 import json
+from threading import Timer
 
 ser = None
 def burst_balloon():
@@ -11,6 +12,7 @@ def burst_balloon():
         ser.write(b'G1 Y0 F6000\n')
         ser.write(b'G1 Y-10 F6000\n')
         ser.write(b'G1 Y0 F6000\n')
+        time.sleep(0.1)
     else:
         print('Failed to open serial port')
 
@@ -21,7 +23,6 @@ def do_action(nickname, gift):
         print(f'{nickname}送出了{gift["count"]}个{gift["name"]}')
         for i in range(gift['count']):
             burst_balloon()
-            # time.sleep(0.1)
 
 def process_msg(msg):
     try:
@@ -49,6 +50,14 @@ def serial_init():
         print('Serial port opened')
     else:
         print('Failed to open serial port')
+
+def x_axis_task():
+    ser.write(b'G91\n')
+    ser.write(b'G1 X100 F1000\n')
+    ser.write(b'G90\n')
+    Timer(5, x_axis_task).start()
+
 if __name__ == '__main__':
     serial_init()
+    Timer(0, x_axis_task).start()
     websocket_server()
