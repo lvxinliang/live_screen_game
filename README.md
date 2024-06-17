@@ -1,3 +1,17 @@
+## 控制板
+- 使用的是ATMEL`MEGA328P`，原来是激光切割机，烧录了`Grbl 0.8c`，在github上有代码：[grbl v0.8](https://github.com/grbl/grbl/tree/v0_8)
+- 因此挥动气球针可以直接发送`gcode`，来控制
+
+![](./imgs/001.jpg)
+## 串口命令
+串口波特率为`9600`
+
+`G1 Y0 F6000`: 控制Y轴步进电机到0坐标，F6000表示速度
+
+`G1 Y-10 F6000`: 控制Y轴步进电机到-10坐标
+
+`G1 Y0 F6000`:  控制Y轴步进电机到0坐标
+
 ## 操作
 1. 进入dycast开源项目：`cd dycast`
 2. 下载依赖：`npm install`
